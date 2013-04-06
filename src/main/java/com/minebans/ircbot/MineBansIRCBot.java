@@ -1,18 +1,15 @@
 package com.minebans.ircbot;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.PrintStream;
-import java.net.URL;
+import java.util.List;
 
 import org.jibble.pircbot.Colors;
 import org.jibble.pircbot.PircBot;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.minebans.webapilib.MineBansWebAPI;
+import com.minebans.webapilib.data.PlayerBan;
 
 public class MineBansIRCBot extends PircBot {
 	
@@ -22,8 +19,7 @@ public class MineBansIRCBot extends PircBot {
 	private String channel;
 	private String nsPass;
 	
-	private Gson gson;
-	private JsonParser jsonParser;
+	private MineBansWebAPI api;
 	
 	private MineBansIRCBot(String host, String nick, String channel, String nsPass){
 		this.host = host;
@@ -35,8 +31,7 @@ public class MineBansIRCBot extends PircBot {
 		this.setVersion("MineBans IRC Bot v" + VERSION);
 		this.setMessageDelay(500L);
 		
-		this.gson = new Gson();
-		this.jsonParser = new JsonParser();
+		this.api = new MineBansWebAPI(null);
 		
 		this.connect();
 	}
@@ -64,30 +59,17 @@ public class MineBansIRCBot extends PircBot {
 					return;
 				}
 				
-				String playerName = parts[1];
-				
-				if (!playerName.matches("[A-Za-z0-9_]{2,16}")){
-					this.sendMessage(channel, Colors.RED + "Invalid player name");
-					return;
-				}
-				
 				try{
-					URL url = new URL("http://minebans.com/feed/player_bans.json?player_name=" + playerName);
+					List<PlayerBan> bans = this.api.getPlayerBans(parts[1]);
 					
-					InputStream input = url.openConnection().getInputStream();
+					this.sendMessage(channel, parts[1] + " has been banned by " + bans.size() + " server(s):");
 					
-					JsonArray entries = this.jsonParser.parse(new InputStreamReader(input)).getAsJsonArray();
-					
-					this.sendMessage(channel, playerName + " has been banned by " + entries.size() + " server(s):");
-					
-					for (JsonElement element : entries){
-						PlayerBanLookupEntry ban = this.gson.fromJson(element, PlayerBanLookupEntry.class);
-						
+					for (PlayerBan ban : bans){
 						this.sendMessage(channel, "  - " + ban.getServerName() + " for " + ban.getReason().toLowerCase());
 					}
-					
-					input.close();
-				}catch (Exception e){
+				}catch (IllegalArgumentException e){
+					this.sendMessage(channel, Colors.RED + "Invalid player name");
+				}catch (IOException e){
 					this.sendMessage(channel, sender + " " + e.getMessage());
 				}
 			}

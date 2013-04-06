@@ -6,11 +6,18 @@
 	<version>0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
+	<repositories>
+		<repository>
+			<id>jacekk-repo</id>
+			<url>http://bukkit.jacekk.co.uk:8000/plugin/repository/everything/</url>
+		</repository>
+	</repositories>
+	
 	<dependencies>
 		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.2.2</version>
+			<groupId>com.minebans</groupId>
+			<artifactId>webapilib</artifactId>
+			<version>0.1-SNAPSHOT</version>
 			<scope>compile</scope>
 		</dependency>
 		
@@ -69,6 +76,7 @@
 						<includes>
 							<include>pircbot:pircbot</include>
 							<include>com.google.code.gson:gson</include>
+							<include>com.minebans:webapilib</include>
 						</includes>
 					</artifactSet>
 				</configuration>

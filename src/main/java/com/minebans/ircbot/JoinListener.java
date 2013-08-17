@@ -22,9 +22,8 @@ public class JoinListener extends ListenerAdapter<MineBansIRCBot> {
 		
 		User[] ops = channel.getOps().toArray(new User[0]);
 		
-		channel.sendMessage("Hi " + user.getNick() + ", if you are here for support please be patient.");
-		channel.sendMessage("This channel is not occupied all of the time, you may prefer to email support@minebans.com");
-		channel.sendMessage("I'll let " + ops[this.random.nextInt(ops.length)] + " know you're here.");
+		channel.sendMessage("Hi " + user.getNick() + ", This channel is not occupied all of the time if you are here for support please be patient.");
+		channel.sendMessage("You may prefer to email support@minebans.com if nobody is available, I'll let " + ops[this.random.nextInt(ops.length)] + " know you're here.");
 	}
 	
 }

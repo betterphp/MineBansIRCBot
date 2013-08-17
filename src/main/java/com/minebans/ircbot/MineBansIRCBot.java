@@ -35,7 +35,7 @@ public class MineBansIRCBot extends PircBotX {
 		
 		this.commandHandler.registerCommand(new LookupCommand(this));
 		
-		this.getListenerManager().addListener(new JoinListener());
+		this.getListenerManager().addListener(new JoinListener(this));
 	}
 	
 	public MineBansWebAPI getAPI(){

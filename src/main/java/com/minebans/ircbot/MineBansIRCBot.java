@@ -56,7 +56,7 @@ public class MineBansIRCBot extends PircBotX {
 	
 	public static void main(String[] args){
 		try{
-			PrintStream stream = new PrintStream(new File("irb-bot.log"));
+			PrintStream stream = new PrintStream(new File("irc-bot.log"));
 			
 		    System.setOut(stream);
 		    System.setErr(stream);

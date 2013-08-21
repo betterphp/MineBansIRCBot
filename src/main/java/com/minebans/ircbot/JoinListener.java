@@ -17,9 +17,10 @@ public class JoinListener extends ListenerAdapter<MineBansIRCBot> {
 	public void onJoin(JoinEvent<MineBansIRCBot> event){
 		User user = event.getUser();
 		Channel channel = event.getChannel();
-		String staffList = "";
 		
 		if (!user.getNick().equals(this.bot.getNick())){
+			String staffList = "";
+			
 			for (User op : channel.getOps()){
 				if (!op.isAway()){
 					staffList += op.getNick() + " ";
@@ -29,8 +30,11 @@ public class JoinListener extends ListenerAdapter<MineBansIRCBot> {
 			if (staffList.isEmpty()){
 				this.bot.sendNotice(user, "Hi " + user.getNick() + ", There are no staff online at the moment, you may prefer to email support@minebans.com");
 			}else{
-				this.bot.sendNotice(user, "Hi " + user.getNick() + ", This channel is not always being watched so please be patient.");
-				this.bot.sendNotice(user, "Staff online: " + staffList.substring(0, staffList.length() - 1));
+				this.bot.sendNotice(user, "Hi " + user.getNick() + ", This channel is not always being watched so please be patient, I'll let the staff know you're here.");
+				
+				for (User op : channel.getOps()){
+					this.bot.sendNotice(op, op.getNick() + " a new user just joined; " + user.getNick());
+				}
 			}
 		}
 	}

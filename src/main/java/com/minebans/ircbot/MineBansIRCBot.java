@@ -42,6 +42,10 @@ public class MineBansIRCBot extends PircBotX {
 		return this.api;
 	}
 	
+	public ConfigFile getConfig(){
+		return this.config;
+	}
+	
 	private void connect(){
 		try{
 			this.connect(this.config.getHost());

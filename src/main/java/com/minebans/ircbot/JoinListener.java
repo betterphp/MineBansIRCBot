@@ -33,7 +33,7 @@ public class JoinListener extends ListenerAdapter<MineBansIRCBot> {
 				this.bot.sendNotice(user, "Hi " + user.getNick() + ", This channel is not always being watched so please be patient, I'll let the staff know you're here.");
 				
 				for (User op : channel.getOps()){
-					this.bot.sendNotice(op, op.getNick() + " a new user just joined; " + user.getNick());
+					op.sendMessage(user.getNick() + " just joined " + this.bot.getConfig().getChannel());
 				}
 			}
 		}

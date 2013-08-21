@@ -26,8 +26,12 @@ public class JoinListener extends ListenerAdapter<MineBansIRCBot> {
 				}
 			}
 			
-			this.bot.sendNotice(user, "Hi " + user.getNick() + ", This channel is not always occupied so please be patient. You may prefer to email support@minebans.com if nobody is available");
-			this.bot.sendNotice(user, "Staff online: " + staffList.substring(0, staffList.length() - 1));
+			if (staffList.isEmpty()){
+				this.bot.sendNotice(user, "Hi " + user.getNick() + ", There are no staff online at the moment, you may prefer to email support@minebans.com");
+			}else{
+				this.bot.sendNotice(user, "Hi " + user.getNick() + ", This channel is not always being watched so please be patient.");
+				this.bot.sendNotice(user, "Staff online: " + staffList.substring(0, staffList.length() - 1));
+			}
 		}
 	}
 	
